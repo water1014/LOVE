@@ -2,7 +2,8 @@
    dock.css · 底部导航（磨砂玻璃）
    ============================================================ */
 .dock{
-  margin:6px var(--sp-dock) var(--sp-dock);padding:7px;display:flex;position:relative;z-index:5;
+  margin:6px var(--sp-dock) calc(var(--sp-dock) + env(safe-area-inset-bottom, 0px));
+  padding:7px;display:flex;position:relative;z-index:5;
   background:var(--glass-bg);
   backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));
   border:1px solid var(--glass-line);border-radius:var(--r-feat);box-shadow:var(--shadow-pop);
@@ -15,3 +16,8 @@
 .dock button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .dock button.active{color:var(--accent)}
 .dock button.active::after{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent)}
+
+/* 宽屏隐藏底栏（dock.css 最后加载，此规则须放在这里才能赢过上面的 display:flex） */
+@media (min-width:721px){
+  .dock{display:none}
+}

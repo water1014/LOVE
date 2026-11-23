@@ -18,7 +18,7 @@ try {
   }
 } catch (e) {}
 </script>
-<!-- 沿用你仓库里已有的 PWA 文件 -->
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
@@ -26,11 +26,11 @@ try {
 <link rel="preconnect" href="https://fonts.loli.net" crossorigin>
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+SC:wght@400;500;600;700&display=swap">
 <!-- 样式：先宪法，后骨架，再页面（顺序不要动） -->
-<link rel="stylesheet" href="css/tokens.css?v=2">
-<link rel="stylesheet" href="css/base.css?v=2">
-<link rel="stylesheet" href="css/home.css?v=2">
-<link rel="stylesheet" href="css/pages.css?v=2">
-<link rel="stylesheet" href="css/dock.css?v=2">
+<link rel="stylesheet" href="css/tokens.css?v=4">
+<link rel="stylesheet" href="css/base.css?v=4">
+<link rel="stylesheet" href="css/home.css?v=4">
+<link rel="stylesheet" href="css/pages.css?v=4">
+<link rel="stylesheet" href="css/dock.css?v=4">
 </head>
 <body>
 
@@ -86,198 +86,244 @@ try {
 
 <div class="stage">
   <div class="phone">
-    <div class="main" id="main">
 
-      <!-- ============ 首页（意象：星） ============ -->
-      <section class="page active" id="page-home">
-        <header class="hero">
-          <div class="meta">
-            <span id="heroDate">—</span>
-            <span class="clock" id="clock">--:--</span>
-          </div>
-          <div class="couple">
-            <span class="nm" id="nameA">他</span>
-            <span class="amp">&amp;</span>
-            <span class="nm" id="nameB">她</span>
-          </div>
-          <p class="greet" id="greet">晚安 · 星期一 11月23日</p>
-        </header>
+    <!-- 顶栏（仅窄屏显示）：汉堡 + 站名 -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="打开侧栏">
+        <svg viewBox="0 0 20 20"><path d="M3.5 6.5h13M3.5 10h13M3.5 13.5h8"/></svg>
+      </button>
+      <span class="wordmark">小窝</span>
+    </header>
 
-        <div class="daycard">
-          <span class="wm">&amp;</span>
-          <svg class="orn-corner dc" viewBox="0 0 48 48" aria-hidden="true"><use href="#orn-corner"/></svg>
-          <div class="kick">TOGETHER <svg class="orn spark" viewBox="0 0 24 24" aria-hidden="true"><use href="#orn-spark"/></svg></div>
-          <div class="count">
-            <span class="num" id="daysNum">0</span>
-            <span class="unit">days</span>
-          </div>
-          <div class="who">since <span id="since">2025.01.01</span><i>·</i><span id="whoNames">他 &amp; 她</span></div>
-          <div class="mile">
-            <div class="row"><span id="mileTxt">距 700 天还有 9 天</span><span id="milePct">—</span></div>
-            <div class="bar"><i id="mileBar" style="width:0%"></i></div>
-          </div>
+    <!-- 抽屉遮罩 -->
+    <div class="scrim" id="scrim"></div>
+
+    <div class="shell">
+      <!-- ============ 侧栏（窄屏=抽屉 / 宽屏=常驻） ============ -->
+      <aside class="sidebar" id="sidebar">
+        <div class="brand"><span class="w">小窝</span><span class="amp">&amp;</span></div>
+        <button class="nav-btn active" data-p="home">
+          <svg viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.5 20v-6h5v6"/></svg>
+          <span>小窝</span>
+        </button>
+        <button class="nav-btn" data-p="album">
+          <svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4.5 17.5 10 12.5l3.5 3.5 3-3 3.5 3.5"/></svg>
+          <span>相册</span>
+        </button>
+        <button class="nav-btn" data-p="journal">
+          <svg viewBox="0 0 24 24"><path d="M5 19.5V5.5a1.5 1.5 0 0 1 1.5-1.5H19v15H6.5A1.5 1.5 0 0 0 5 20.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-4"/><path d="M9.5 8.5h5.5M9.5 12h3.5"/></svg>
+          <span>日记</span>
+        </button>
+        <button class="nav-btn" data-p="more">
+          <svg viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg>
+          <span>更多</span>
+        </button>
+        <div class="side-gap"></div>
+        <div class="side-foot">
+          <span class="kick">外观</span>
+          <select id="inTheme">
+            <option value="auto">自动</option>
+            <option value="day">白昼</option>
+            <option value="night">夜幕</option>
+          </select>
         </div>
+        <div class="ver">XIAOWO · v2.2</div>
+      </aside>
 
-        <div class="grid">
-          <!-- 天气 -->
-          <div class="card">
-            <div class="kick">Weather</div>
-            <div class="body wx">
-              <span class="ico" id="wxIco">—</span>
-              <div>
-                <div class="t" id="wxTemp">—</div>
-                <div class="sub" id="wxSub">未设置城市</div>
+      <!-- ============ 内容区 ============ -->
+      <div class="main" id="main">
+
+        <!-- ========== 首页（意象：星） ========== -->
+        <section class="page active" id="page-home">
+          <header class="hero">
+            <div class="meta">
+              <span id="heroDate">—</span>
+              <span class="clock" id="clock">--:--</span>
+            </div>
+            <div class="couple">
+              <span class="nm" id="nameA">他</span>
+              <span class="amp">&amp;</span>
+              <span class="nm" id="nameB">她</span>
+            </div>
+            <p class="greet" id="greet">晚安 · 星期一 11月23日</p>
+          </header>
+
+          <div class="daycard">
+            <span class="wm">&amp;</span>
+            <svg class="orn-corner dc" viewBox="0 0 48 48" aria-hidden="true"><use href="#orn-corner"/></svg>
+            <div class="kick">TOGETHER <svg class="orn spark" viewBox="0 0 24 24" aria-hidden="true"><use href="#orn-spark"/></svg></div>
+            <div class="count">
+              <span class="num" id="daysNum">0</span>
+              <span class="unit">days</span>
+            </div>
+            <div class="who">since <span id="since">2025.01.01</span><i>·</i><span id="whoNames">他 &amp; 她</span></div>
+            <div class="mile">
+              <div class="row"><span id="mileTxt">距 700 天还有 9 天</span><span id="milePct">—</span></div>
+              <div class="bar"><i id="mileBar" style="width:0%"></i></div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <!-- 天气 -->
+            <div class="card">
+              <div class="kick">Weather</div>
+              <div class="body wx">
+                <span class="ico" id="wxIco">—</span>
+                <div>
+                  <div class="t" id="wxTemp">—</div>
+                  <div class="sub" id="wxSub">未设置城市</div>
+                </div>
+              </div>
+            </div>
+            <!-- 额度 -->
+            <div class="card">
+              <div class="kick">Quota</div>
+              <div class="body quota">
+                <svg class="ring" viewBox="0 0 64 64">
+                  <circle class="bg" cx="32" cy="32" r="26" fill="none" stroke-width="5"/>
+                  <circle class="fg" id="ringFg" cx="32" cy="32" r="26" fill="none" stroke-width="5"
+                          stroke-dasharray="163.36" stroke-dashoffset="163.36" transform="rotate(-90 32 32)"/>
+                  <text x="32" y="37" text-anchor="middle" id="ringPct">0%</text>
+                </svg>
+                <div>
+                  <div class="fig" id="quotaFig">0.0k / 128k</div>
+                  <div class="figsub">本月tokens</div>
+                </div>
+              </div>
+            </div>
+            <!-- 日历 -->
+            <div class="card wide">
+              <div class="kick">Calendar</div>
+              <div class="cal-head">
+                <span class="t" id="calTitle">—</span>
+                <div class="cal-nav">
+                  <button id="calPrev" aria-label="上个月">‹</button>
+                  <button id="calNext" aria-label="下个月">›</button>
+                </div>
+              </div>
+              <div class="cal-grid" id="calGrid" role="grid" aria-label="月历"></div>
+            </div>
+            <!-- 音乐 -->
+            <div class="card wide" id="musicCard">
+              <div class="kick">Now Playing</div>
+              <div class="body music">
+                <div class="disc"></div>
+                <div class="m-info empty" id="mInfo">
+                  <div class="m-title" id="mTitle">还没挑一首</div>
+                  <div class="m-artist" id="mArtist">点这里去加</div>
+                  <div class="m-prog"><i></i></div>
+                </div>
+                <button class="play-btn" id="playBtn" aria-label="播放">
+                  <svg viewBox="0 0 16 16" id="playIco"><path d="M4 2.5v11l9-5.5z"/></svg>
+                </button>
               </div>
             </div>
           </div>
-          <!-- 额度 -->
-          <div class="card">
-            <div class="kick">Quota</div>
-            <div class="body quota">
-              <svg class="ring" viewBox="0 0 64 64">
-                <circle class="bg" cx="32" cy="32" r="26" fill="none" stroke-width="5"/>
-                <circle class="fg" id="ringFg" cx="32" cy="32" r="26" fill="none" stroke-width="5"
-                        stroke-dasharray="163.36" stroke-dashoffset="163.36" transform="rotate(-90 32 32)"/>
-                <text x="32" y="37" text-anchor="middle" id="ringPct">0%</text>
-              </svg>
-              <div>
-                <div class="fig" id="quotaFig">0.0k / 128k</div>
-                <div class="figsub">本月tokens</div>
+        </section>
+
+        <!-- ========== 相册（意象：蝴蝶） ========== -->
+        <section class="page" id="page-album">
+          <header class="page-head">
+            <h2>相册</h2>
+            <p>随手放几张，这里就会亮起来。</p>
+          </header>
+          <div class="empty" id="albumEmpty">
+            <svg class="orn bf" viewBox="0 0 24 24" aria-hidden="true"><use href="#orn-butterfly"/></svg>
+            <div class="t">还没照片</div>
+            <div class="s">点下面的「添加」，先放一张试试。</div>
+          </div>
+          <div class="album-grid" id="albumGrid"></div>
+          <div class="album-grid" style="padding-top:0">
+            <button class="tile-add" id="albumAdd"><span><b>＋</b>添加照片</span></button>
+          </div>
+        </section>
+
+        <!-- ========== 日记（意象：月） ========== -->
+        <section class="page" id="page-journal">
+          <header class="page-head">
+            <h2>日记</h2>
+            <p>今天也可以就这么过。</p>
+          </header>
+          <div class="jr-card">
+            <svg class="orn-corner jc" viewBox="0 0 48 48" aria-hidden="true"><use href="#orn-corner"/></svg>
+            <textarea id="jrText" placeholder="想写的时候点这里。" maxlength="2000"></textarea>
+            <div class="jr-foot">
+              <div class="left">
+                <svg class="orn moon" viewBox="0 0 24 24" aria-hidden="true"><use href="#orn-moon"/></svg>
+                <span class="cnt" id="jrCnt">0 字</span>
               </div>
+              <button class="btn" id="jrSave">存下来</button>
             </div>
           </div>
-          <!-- 日历 -->
-          <div class="card wide">
-            <div class="kick">Calendar</div>
-            <div class="cal-head">
-              <span class="t" id="calTitle">—</span>
-              <div class="cal-nav">
-                <button id="calPrev" aria-label="上个月">‹</button>
-                <button id="calNext" aria-label="下个月">›</button>
-              </div>
-            </div>
-            <div class="cal-grid" id="calGrid"></div>
+          <div id="jrList"></div>
+          <div class="empty" id="jrEmpty">
+            <svg class="orn moon orn-lg" viewBox="0 0 24 24" aria-hidden="true"><use href="#orn-moon"/></svg>
+            <div class="t">还没写</div>
+            <div class="s">写下的第一句，会留在最上面。</div>
           </div>
-          <!-- 音乐 -->
-          <div class="card wide" id="musicCard">
-            <div class="kick">Now Playing</div>
-            <div class="body music">
-              <div class="disc"></div>
-              <div class="m-info empty" id="mInfo">
-                <div class="m-title" id="mTitle">还没挑一首</div>
-                <div class="m-artist" id="mArtist">点这里去加</div>
-                <div class="m-prog"><i></i></div>
-              </div>
-              <button class="play-btn" id="playBtn" aria-label="播放">
-                <svg viewBox="0 0 16 16" id="playIco"><path d="M4 2.5v11l9-5.5z"/></svg>
-              </button>
-            </div>
+        </section>
+
+        <!-- ========== 更多 ========== -->
+        <section class="page" id="page-more">
+          <header class="page-head">
+            <h2>更多</h2>
+            <p>这里改的一切，都会自动保存。</p>
+          </header>
+          <div class="set-sec">
+            <span class="kick">我们</span>
+            <div class="set-row"><label>名字</label><input id="inA" placeholder="他" maxlength="6"></div>
+            <div class="set-row"><label>名字</label><input id="inB" placeholder="她" maxlength="6"></div>
+            <div class="set-row"><label>开始于</label><input id="inStart" type="date"></div>
           </div>
-        </div>
-      </section>
-
-      <!-- ============ 相册（意象：蝴蝶） ============ -->
-      <section class="page" id="page-album">
-        <header class="page-head">
-          <h2>相册</h2>
-          <p>随手放几张，这里就会亮起来。</p>
-        </header>
-        <div class="empty" id="albumEmpty">
-          <svg class="orn bf" viewBox="0 0 24 24" aria-hidden="true"><use href="#orn-butterfly"/></svg>
-          <div class="t">还没照片</div>
-          <div class="s">点下面的「添加」，先放一张试试。</div>
-        </div>
-        <div class="album-grid" id="albumGrid"></div>
-        <div class="album-grid" style="padding-top:0">
-          <button class="tile-add" id="albumAdd"><span><b>＋</b>添加照片</span></button>
-        </div>
-      </section>
-
-      <!-- ============ 日记（意象：月） ============ -->
-      <section class="page" id="page-journal">
-        <header class="page-head">
-          <h2>日记</h2>
-          <p>今天也可以就这么过。</p>
-        </header>
-        <div class="jr-card">
-          <svg class="orn-corner jc" viewBox="0 0 48 48" aria-hidden="true"><use href="#orn-corner"/></svg>
-          <textarea id="jrText" placeholder="想写的时候点这里。"></textarea>
-          <div class="jr-foot">
-            <div class="left">
-              <svg class="orn moon" viewBox="0 0 24 24" aria-hidden="true"><use href="#orn-moon"/></svg>
-              <span class="cnt" id="jrCnt">0 字</span>
-            </div>
-            <button class="btn" id="jrSave">存下来</button>
+          <div class="set-sec">
+            <span class="kick">小组件</span>
+            <div class="set-row"><label>城市</label><input id="inCity" placeholder="杭州" maxlength="10"></div>
+            <div class="set-row"><label>已用</label><input id="inUsed" type="number" min="0" step="0.1" placeholder="0"></div>
+            <div class="set-row"><label>额度</label><input id="inTotal" type="number" min="1" step="1" placeholder="128"></div>
+            <div class="set-row"><label>歌名</label><input id="inSong" placeholder="还没挑一首" maxlength="30"></div>
+            <div class="set-row"><label>歌手</label><input id="inArtist" placeholder="点这里去加" maxlength="20"></div>
           </div>
-        </div>
-        <div id="jrList"></div>
-        <div class="empty" id="jrEmpty">
-          <svg class="orn moon orn-lg" viewBox="0 0 24 24" aria-hidden="true"><use href="#orn-moon"/></svg>
-          <div class="t">还没写</div>
-          <div class="s">写下的第一句，会留在最上面。</div>
-        </div>
-      </section>
-
-      <!-- ============ 更多 ============ -->
-      <section class="page" id="page-more">
-        <header class="page-head">
-          <h2>更多</h2>
-          <p>这里改的一切，都会自动保存。</p>
-        </header>
-        <div class="set-sec">
-          <span class="kick">我们</span>
-          <div class="set-row"><label>名字</label><input id="inA" placeholder="他" maxlength="6"></div>
-          <div class="set-row"><label>名字</label><input id="inB" placeholder="她" maxlength="6"></div>
-          <div class="set-row"><label>开始于</label><input id="inStart" type="date"></div>
-        </div>
-        <div class="set-sec">
-          <span class="kick">小组件</span>
-          <div class="set-row"><label>外观</label>
-            <select id="inTheme">
-              <option value="auto">自动（随时间）</option>
-              <option value="day">白昼</option>
-              <option value="night">夜幕</option>
-            </select>
+          <div class="set-sec">
+            <span class="kick">备份</span>
+            <div class="set-row"><label>导出</label><button class="mini-btn" id="btnExport">下载备份文件</button></div>
+            <div class="set-row"><label>导入</label><button class="mini-btn" id="btnImport">选择备份文件</button></div>
+            <input type="file" id="inBackup" accept="application/json,.json" hidden>
           </div>
-          <div class="set-row"><label>城市</label><input id="inCity" placeholder="杭州" maxlength="10"></div>
-          <div class="set-row"><label>已用</label><input id="inUsed" type="number" min="0" step="0.1" placeholder="0"></div>
-          <div class="set-row"><label>额度</label><input id="inTotal" type="number" min="1" step="1" placeholder="128"></div>
-          <div class="set-row"><label>歌名</label><input id="inSong" placeholder="还没挑一首" maxlength="30"></div>
-          <div class="set-row"><label>歌手</label><input id="inArtist" placeholder="点这里去加" maxlength="20"></div>
-        </div>
-        <button class="danger" id="resetAll">清空本地数据，回到最初</button>
-        <div class="ver">XIAOWO · REDESIGNED v2</div>
-      </section>
+          <button class="danger" id="resetAll">清空本地数据，回到最初</button>
+          <div class="ver">XIAOWO · REDESIGNED v2.2</div>
+        </section>
 
-    </div>
+      </div><!-- /.main -->
+    </div><!-- /.shell -->
 
-    <!-- ============ dock ============ -->
+    <!-- ============ 底栏（仅窄屏显示） ============ -->
     <nav class="dock" id="dock">
-      <button class="active" data-p="home" aria-label="小窝">
+      <button class="nav-btn active" data-p="home" aria-label="小窝">
         <svg viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.5 20v-6h5v6"/></svg>
         <span>小窝</span>
       </button>
-      <button data-p="album" aria-label="相册">
+      <button class="nav-btn" data-p="album" aria-label="相册">
         <svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4.5 17.5 10 12.5l3.5 3.5 3-3 3.5 3.5"/></svg>
         <span>相册</span>
       </button>
-      <button data-p="journal" aria-label="日记">
+      <button class="nav-btn" data-p="journal" aria-label="日记">
         <svg viewBox="0 0 24 24"><path d="M5 19.5V5.5a1.5 1.5 0 0 1 1.5-1.5H19v15H6.5A1.5 1.5 0 0 0 5 20.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-4"/><path d="M9.5 8.5h5.5M9.5 12h3.5"/></svg>
         <span>日记</span>
       </button>
-      <button data-p="more" aria-label="更多">
+      <button class="nav-btn" data-p="more" aria-label="更多">
         <svg viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg>
         <span>更多</span>
       </button>
     </nav>
-  </div>
+
+  </div><!-- /.phone -->
   <div class="toast" id="toast"></div>
 </div>
 
 <!-- 脚本：先 store，后页面逻辑，最后启动（顺序不要动） -->
-<script src="js/store.js?v=2"></script>
-<script src="js/widgets.js?v=2"></script>
-<script src="js/pages.js?v=2"></script>
-<script src="js/main.js?v=2"></script>
+<script src="js/store.js?v=4"></script>
+<script src="js/widgets.js?v=4"></script>
+<script src="js/pages.js?v=4"></script>
+<script src="js/main.js?v=4"></script>
 </body>
 </html>

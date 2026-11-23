@@ -1,6 +1,10 @@
 /* ============================================================
    base.css · 骨架层
-   reset / 机身 / 氛围 / 页面切换 / 装饰套件 / toast / 响应式
+   reset / 机身 / 氛围 / 顶栏 / 侧栏(抽屉) / 页面切换 / 装饰 / toast / 响应式
+   ------------------------------------------------------------
+   布局规则（宪法第十一章）：
+   ≤720px  顶栏(汉堡) + 侧栏抽屉 + 底栏
+   ≥721px  常驻侧栏，无顶栏无底栏
    ============================================================ */
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -53,7 +57,60 @@ body::after{
     radial-gradient(340px 300px at 70% 14%, rgba(238,230,231,.05), transparent 70%);
 }
 
-.main{flex:1;overflow-y:auto;overscroll-behavior:contain;padding-bottom:8px;position:relative;z-index:1}
+/* ---------- 顶栏（仅窄屏） ---------- */
+.topbar{display:flex;align-items:center;gap:12px;padding:16px var(--sp-dock) 6px;position:relative;z-index:5}
+.topbar .wordmark{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.08em}
+.menu-btn{
+  width:36px;height:36px;border-radius:var(--r-pill);cursor:pointer;
+  border:1px solid var(--glass-line);background:var(--glass-bg);color:var(--ink2);
+  backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));
+  display:grid;place-items:center;flex:none;
+}
+.menu-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round}
+
+/* ---------- 侧栏 / 抽屉 ---------- */
+.shell{display:flex;flex:1;min-height:0;position:relative}
+.sidebar{
+  width:206px;flex:none;display:flex;flex-direction:column;gap:2px;
+  padding:26px 12px 14px;position:relative;z-index:6;
+  background:var(--glass-bg);
+  backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));
+  border-right:1px solid var(--line);
+  transition:transform .4s cubic-bezier(.22,1,.36,1),background-color .5s ease;
+}
+.brand{display:flex;align-items:baseline;gap:7px;padding:2px 12px 20px}
+.brand .w{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.06em}
+.brand .amp{font-family:var(--disp);font-style:italic;color:var(--accent);font-size:17px}
+.nav-btn{
+  display:flex;align-items:center;gap:11px;width:100%;
+  padding:11px 12px;border-radius:var(--r-card);
+  border:none;background:none;cursor:pointer;
+  color:var(--sub);font-size:13px;letter-spacing:.12em;font-family:var(--sans);text-align:left;
+}
+.nav-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn.active{color:var(--accent);background:var(--accent-soft)}
+.side-gap{flex:1}
+.side-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:12px;border-top:1px solid var(--line);
+}
+.side-foot select{
+  border:none;background:none;outline:none;cursor:pointer;
+  color:var(--ink);font-size:13px;font-family:var(--sans);
+  appearance:none;-webkit-appearance:none;text-align:right;
+}
+.sidebar .ver{padding:4px 12px 0;text-align:left}
+
+/* 抽屉遮罩 */
+.scrim{
+  position:absolute;inset:0;z-index:18;
+  background:rgba(22,19,17,.35);
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.phone.drawer-open .scrim{opacity:1;pointer-events:auto}
+
+/* ---------- 内容区 ---------- */
+.main{flex:1;min-width:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:8px;position:relative;z-index:1}
 .main::-webkit-scrollbar{display:none}
 
 /* ---------- 页面切换 ---------- */
@@ -87,9 +144,42 @@ body::after{
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ---------- 移动端铺满 ---------- */
+/* ---------- 窄屏：抽屉化 ---------- */
+@media (max-width:720px){
+  .hero{padding-top:16px}
+  .page-head{padding-top:22px}
+  .sidebar{
+    position:absolute;left:0;top:0;bottom:0;width:236px;
+    transform:translateX(-105%);border-right:none;border-radius:0 var(--r-card) var(--r-card) 0;
+    box-shadow:var(--shadow-pop);z-index:20;
+  }
+  .phone.drawer-open .sidebar{transform:none}
+}
+
+/* ---------- 宽屏：常驻侧栏，无顶栏无底栏 ---------- */
+@media (min-width:721px){
+  .topbar{display:none}
+  .scrim{display:none}
+  .dock{display:none}
+  .phone{width:min(920px,100vw)}
+  .toast{bottom:28px}
+}
+
+/* ---------- 手机尺寸铺满 ---------- */
 @media (max-width:540px){
   body{display:block;overflow:hidden}
   body::before,body::after{display:none}
   .phone{width:100vw;height:100dvh;border:none;border-radius:0;box-shadow:none}
+}
+
+/* ---------- 键盘可达性（focus-visible 用强调色，不用默认蓝框） ---------- */
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px;
+}
+
+/* ---------- 动效偏好：尊重系统"减少动态效果" ---------- */
+@media (prefers-reduced-motion:reduce){
+  .page.active,.tile,.entry{animation:none}
+  .disc,.playing .m-prog i{animation:none}
+  body,.phone,.card,.jr-card,.dock,.sidebar,.scrim{transition-duration:.01s}
 }

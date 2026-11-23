@@ -6,14 +6,25 @@
   'use strict';
   var $ = XW.$, $$ = XW.$$, S = XW.S, DEF = XW.DEF, pad = XW.pad;
 
-  /* ---------- 页面切换 ---------- */
+  /* ---------- 页面切换（侧栏与底栏共用 .nav-btn） ---------- */
   XW.switchTab = function (p) {
-    $$('#dock button').forEach(function (b) { b.classList.toggle('active', b.dataset.p === p); });
+    $$('.nav-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.p === p); });
     $$('.page').forEach(function (pg) { pg.classList.toggle('active', pg.id === 'page-' + p); });
     $('#main').scrollTop = 0;
+    XW.closeDrawer();
   };
-  $$('#dock button').forEach(function (b) {
+  $$('.nav-btn').forEach(function (b) {
     b.addEventListener('click', function () { XW.switchTab(b.dataset.p); });
+  });
+
+  /* ---------- 侧栏抽屉 ---------- */
+  XW.closeDrawer = function () { $('.phone').classList.remove('drawer-open'); };
+  $('#menuBtn').addEventListener('click', function () {
+    $('.phone').classList.toggle('drawer-open');
+  });
+  $('#scrim').addEventListener('click', XW.closeDrawer);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') XW.closeDrawer();
   });
 
   /* ---------- 相册 ---------- */
@@ -98,6 +109,61 @@
       XW.save();
       XW.refresh();
     });
+  });
+
+  /* ---------- 备份导出 / 导入（手册 C 区：数据可迁移，清缓存不全损） ---------- */
+  $('#btnExport').addEventListener('click', function () {
+    var settings = {};
+    Object.keys(DEF).forEach(function (k) { settings[k] = S[k]; });
+    var data = {
+      app: 'xiaowo', version: 2, exportedAt: new Date().toISOString(),
+      settings: settings, photos: photos, entries: entries
+    };
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    var d = new Date();
+    a.href = URL.createObjectURL(blob);
+    a.download = 'xiaowo-backup-' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    XW.toast('备份已下载');
+  });
+  $('#btnImport').addEventListener('click', function () { $('#inBackup').click(); });
+  $('#inBackup').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    this.value = '';
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var data = JSON.parse(reader.result);
+        if (!data || data.app !== 'xiaowo' || typeof data.settings !== 'object') {
+          XW.toast('这个文件不是小窝备份');
+          return;
+        }
+        if (!confirm('导入会覆盖现在的名字、纪念日、照片和日记，确定吗？')) return;
+        Object.keys(DEF).forEach(function (k) {
+          S[k] = data.settings[k] == null ? DEF[k] : data.settings[k];
+        });
+        XW.save();
+        photos = Array.isArray(data.photos) ? data.photos.filter(function (p) {
+          return p && typeof p.s === 'number' && typeof p.t === 'number';
+        }) : [];
+        entries = Array.isArray(data.entries) ? data.entries.filter(function (en) {
+          return en && typeof en.t === 'number' && typeof en.text === 'string';
+        }) : [];
+        XW.store.set('xw-photos', photos);
+        XW.store.set('xw-journal', entries);
+        XW.renderAlbum();
+        XW.renderJr();
+        XW.refresh();
+        XW.toast('导入完成');
+      } catch (err) {
+        XW.toast('文件解析失败');
+      }
+    };
+    reader.readAsText(f);
   });
 
   /* ---------- 重置 ---------- */

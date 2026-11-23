@@ -110,7 +110,10 @@
     var today = new Date();
     for (var d = 1; d <= n; d++) {
       var e = document.createElement('div'); e.className = 'd'; e.textContent = d;
-      if (y === today.getFullYear() && m === today.getMonth() && d === today.getDate()) e.classList.add('today');
+      if (y === today.getFullYear() && m === today.getMonth() && d === today.getDate()) {
+        e.classList.add('today');
+        e.setAttribute('aria-current', 'date');
+      }
       g.appendChild(e);
     }
   };

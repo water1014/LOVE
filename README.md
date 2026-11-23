@@ -16,6 +16,12 @@ js/             store → widgets → pages → main（全局命名空间 XW）
 docs/           design-tokens.md 设计规范说明书
 ```
 
+## 布局
+
+- **≤720px（手机）**：顶栏汉堡 + 左侧抽屉（导航 / 外观 / 版本）+ 底部导航栏
+- **≥721px（桌面 / 平板）**：左侧常驻侧栏，无顶栏无底栏，机身自动加宽
+- 导航只有一套 `.nav-btn`，抽屉和底栏共用，逻辑只绑一次
+
 ## 本地预览
 
 直接双击 `index.html`，或 `python3 -m http.server` 后访问。
@@ -34,3 +40,4 @@ docs/           design-tokens.md 设计规范说明书
 - 名字 / 纪念日 / 城市 / 额度 / 歌：页面里「更多」
 - 新增装饰意象：先画进 `index.html` 顶部 sprite，
   到 `docs/design-tokens.md` 第八、九章登记后再用
+- 备份：「更多 → 备份」可导出 / 导入全部本地数据（JSON 文件）

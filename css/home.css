@@ -7,11 +7,11 @@
 .hero{padding:34px var(--sp-page) 6px}
 .hero .meta{display:flex;justify-content:space-between;align-items:center;
   font-size:var(--fs-note);letter-spacing:.18em;color:var(--sub);font-weight:500}
-.hero .meta .clock{font-family:var(--disp);font-size:14px;letter-spacing:.06em;color:var(--ink2)}
+.hero .meta .clock{font-family:var(--disp);font-size:var(--fs-14);letter-spacing:.06em;color:var(--ink2)}
 .couple{display:flex;align-items:baseline;gap:10px;margin-top:18px}
 .couple .nm{font-family:var(--serif);font-size:var(--fs-hero);font-weight:600;letter-spacing:.04em}
 .couple .amp{font-family:var(--disp);font-style:italic;font-size:26px;color:var(--accent);transform:translateY(-2px)}
-.hero .greet{margin-top:6px;font-size:12.5px;color:var(--sub);letter-spacing:.06em}
+.hero .greet{margin-top:6px;font-size:var(--fs-12);color:var(--sub);letter-spacing:.06em}
 .hero .greet b{color:var(--ink2);font-weight:500}
 
 /* ---------- 纪念日卡（重点卡 · 全页唯一蕾丝角） ---------- */
@@ -29,7 +29,7 @@
 .daycard .count{display:flex;align-items:baseline;gap:8px;margin-top:10px}
 .daycard .num{font-family:var(--disp);font-size:96px;line-height:.85;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
 .daycard .unit{font-family:var(--disp);font-style:italic;font-size:20px;color:var(--accent-deep)}
-.daycard .who{margin-top:12px;font-size:12px;color:var(--accent-deep);letter-spacing:.04em}
+.daycard .who{margin-top:12px;font-size:var(--fs-12);color:var(--accent-deep);letter-spacing:.04em}
 .daycard .who i{font-style:normal;margin:0 4px;color:var(--accent)}
 .daycard .mile{margin-top:18px}
 .daycard .mile .row{display:flex;justify-content:space-between;font-size:var(--fs-note);color:var(--accent-deep);letter-spacing:.04em}
@@ -65,7 +65,7 @@
 
 /* ---------- 日历 ---------- */
 .cal-head{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
-.cal-head .t{font-family:var(--serif);font-size:15px;font-weight:600;letter-spacing:.06em}
+.cal-head .t{font-family:var(--serif);font-size:var(--fs-body-lg);font-weight:600;letter-spacing:.06em}
 .cal-nav{display:flex;gap:4px}
 .cal-nav button{
   width:26px;height:26px;border-radius:var(--r-pill);border:1px solid var(--line);background:none;
@@ -74,11 +74,12 @@
 .cal-nav button:active{background:var(--accent-soft)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);margin-top:10px}
 .cal-grid .wd{text-align:center;font-size:10px;color:var(--sub);letter-spacing:.08em;padding:5px 0}
-.cal-grid .d{text-align:center;font-size:12.5px;color:var(--ink2);padding:7px 0;border-radius:var(--r-pill);font-variant-numeric:tabular-nums}
+.cal-grid .d{text-align:center;font-size:var(--fs-12);color:var(--ink2);padding:7px 0;border-radius:var(--r-pill);font-variant-numeric:tabular-nums}
 .cal-grid .d.today{background:var(--accent);color:#fff;font-weight:600}
 [data-theme="night"] .cal-grid .d.today{box-shadow:0 0 14px rgba(192,143,153,.5)}
 
 /* ---------- 音乐 ---------- */
+/* 唱片材质色为刻意的裸值（vinyl），不走 token */
 .music{display:flex;align-items:center;gap:14px}
 .disc{
   width:62px;height:62px;border-radius:50%;flex:none;position:relative;
@@ -91,7 +92,7 @@
 .playing .disc{animation-play-state:running}
 @keyframes spin{to{transform:rotate(360deg)}}
 .m-info{flex:1;min-width:0}
-.m-title{font-family:var(--serif);font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-title{font-family:var(--serif);font-size:var(--fs-14);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .m-artist{font-size:var(--fs-note);color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .m-prog{height:2.5px;border-radius:2px;background:var(--fill);margin-top:10px;overflow:hidden}
 .m-prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:2px}
