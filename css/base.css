@@ -1,0 +1,95 @@
+/* ============================================================
+   base.css · 骨架层
+   reset / 机身 / 氛围 / 页面切换 / 装饰套件 / toast / 响应式
+   ============================================================ */
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+
+body{
+  background:var(--stage);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:var(--fs-body);
+  display:grid;place-items:center;
+  min-height:100vh;overflow:hidden;
+  transition:background-color .5s ease,color .5s ease;
+}
+
+/* 桌面氛围：巨字水印 + 纸面噪点 */
+body::before{
+  content:'小窝';position:fixed;inset:0;display:grid;place-items:center;
+  font-family:var(--serif);font-weight:700;font-size:34vmin;letter-spacing:.1em;
+  color:var(--ink);opacity:.028;pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* ---------- 机身 ---------- */
+.stage{position:relative;z-index:2}
+.phone{
+  width:min(430px,100vw);height:min(900px,100vh);
+  background:var(--paper);
+  border:1px solid var(--line);border-radius:var(--r-device);
+  box-shadow:0 2px 4px rgba(38,34,30,.05),0 40px 90px -30px rgba(38,34,30,.35);
+  display:flex;flex-direction:column;overflow:hidden;position:relative;
+  transition:background-color .5s ease,border-color .5s ease;
+}
+
+/* 梦核氛围光：雾蓝 / 雾粉 / 薄荷 三团柔光（玻璃质感的底色） */
+.phone::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(420px 320px at 88% -6%, rgba(124,178,209,.32), transparent 70%),
+    radial-gradient(400px 340px at -12% 32%, rgba(232,182,183,.28), transparent 70%),
+    radial-gradient(520px 400px at 55% 108%, rgba(194,223,232,.26), transparent 72%);
+}
+[data-theme="night"] .phone::before{
+  background:
+    radial-gradient(420px 320px at 88% -6%, rgba(72,133,182,.20), transparent 70%),
+    radial-gradient(400px 340px at -12% 32%, rgba(158,106,113,.16), transparent 70%),
+    radial-gradient(340px 300px at 70% 14%, rgba(238,230,231,.05), transparent 70%);
+}
+
+.main{flex:1;overflow-y:auto;overscroll-behavior:contain;padding-bottom:8px;position:relative;z-index:1}
+.main::-webkit-scrollbar{display:none}
+
+/* ---------- 页面切换 ---------- */
+.page{display:none;padding-bottom:14px}
+.page.active{display:block;animation:pageIn .45s cubic-bezier(.22,1,.36,1)}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- 磨砂玻璃组件（第七章） ---------- */
+.card,.jr-card,.dock{
+  transition:background-color .5s ease,border-color .5s ease;
+}
+
+/* ---------- 装饰意象套件（第八、九章，用法见宪法） ---------- */
+.orn{width:13px;height:13px;flex:none;color:var(--orn)}
+.orn.spark{color:var(--orn-accent);opacity:.6}
+.orn.moon{color:var(--orn);opacity:.85}
+.orn-lg{width:20px;height:20px}
+.orn.bf{display:block;width:32px;height:32px;color:var(--orn-accent);opacity:.55;margin:0 auto 10px}
+.orn-corner{position:absolute;pointer-events:none;color:var(--accent-deep);opacity:.38}
+.orn-corner.dc{right:12px;bottom:36px;width:46px;height:46px}
+.orn-corner.jc{right:12px;top:12px;width:38px;height:38px;opacity:.3}
+
+/* ---------- toast ---------- */
+.toast{
+  position:absolute;left:50%;bottom:104px;transform:translateX(-50%) translateY(10px);
+  background:var(--ink);color:var(--paper);
+  font-size:var(--fs-body);letter-spacing:.06em;
+  padding:9px 18px;border-radius:var(--r-pill);opacity:0;transition:.35s;
+  pointer-events:none;z-index:9;white-space:nowrap;
+  box-shadow:0 8px 24px -6px rgba(38,34,30,.4);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- 移动端铺满 ---------- */
+@media (max-width:540px){
+  body{display:block;overflow:hidden}
+  body::before,body::after{display:none}
+  .phone{width:100vw;height:100dvh;border:none;border-radius:0;box-shadow:none}
+}

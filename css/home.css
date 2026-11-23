@@ -1,0 +1,107 @@
+/* ============================================================
+   home.css · 首页（意象：星）
+   hero / 纪念日卡 / 天气 / 额度 / 日历 / 音乐
+   ============================================================ */
+
+/* ---------- hero ---------- */
+.hero{padding:34px var(--sp-page) 6px}
+.hero .meta{display:flex;justify-content:space-between;align-items:center;
+  font-size:var(--fs-note);letter-spacing:.18em;color:var(--sub);font-weight:500}
+.hero .meta .clock{font-family:var(--disp);font-size:14px;letter-spacing:.06em;color:var(--ink2)}
+.couple{display:flex;align-items:baseline;gap:10px;margin-top:18px}
+.couple .nm{font-family:var(--serif);font-size:var(--fs-hero);font-weight:600;letter-spacing:.04em}
+.couple .amp{font-family:var(--disp);font-style:italic;font-size:26px;color:var(--accent);transform:translateY(-2px)}
+.hero .greet{margin-top:6px;font-size:12.5px;color:var(--sub);letter-spacing:.06em}
+.hero .greet b{color:var(--ink2);font-weight:500}
+
+/* ---------- 纪念日卡（重点卡 · 全页唯一蕾丝角） ---------- */
+.daycard{
+  margin:20px var(--sp-dock) 8px;padding:26px var(--sp-in) 22px;
+  border-radius:var(--r-feat);position:relative;overflow:hidden;
+  background:linear-gradient(150deg,var(--cream1) 0%,var(--cream2) 78%,var(--cream3) 100%);
+  box-shadow:var(--shadow);
+}
+.daycard .wm{position:absolute;right:-8px;top:2px;font-family:var(--disp);font-style:italic;
+  font-size:92px;line-height:1;color:#fff;opacity:.5;pointer-events:none;user-select:none}
+.daycard .kick{font-size:var(--fs-kick);letter-spacing:.3em;color:var(--accent-deep);font-weight:600;
+  display:flex;align-items:center;gap:7px}
+.daycard .kick .orn{width:10px;height:10px}
+.daycard .count{display:flex;align-items:baseline;gap:8px;margin-top:10px}
+.daycard .num{font-family:var(--disp);font-size:96px;line-height:.85;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+.daycard .unit{font-family:var(--disp);font-style:italic;font-size:20px;color:var(--accent-deep)}
+.daycard .who{margin-top:12px;font-size:12px;color:var(--accent-deep);letter-spacing:.04em}
+.daycard .who i{font-style:normal;margin:0 4px;color:var(--accent)}
+.daycard .mile{margin-top:18px}
+.daycard .mile .row{display:flex;justify-content:space-between;font-size:var(--fs-note);color:var(--accent-deep);letter-spacing:.04em}
+.daycard .bar{height:3px;border-radius:2px;background:rgba(255,255,255,.65);margin-top:8px;overflow:hidden}
+.daycard .bar i{display:block;height:100%;background:var(--accent);border-radius:2px;transition:width 1s cubic-bezier(.22,1,.36,1)}
+
+/* ---------- 通用小卡（磨砂玻璃） ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-card);padding:var(--sp-card) var(--sp-dock) 4px}
+.card{
+  background:var(--glass-bg);
+  backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));
+  border:1px solid var(--glass-line);border-radius:var(--r-card);
+  padding:var(--sp-in);box-shadow:var(--shadow);
+}
+.card.wide{grid-column:1/-1}
+.kick{font-size:var(--fs-kick);letter-spacing:.26em;color:var(--sub);font-weight:600;text-transform:uppercase}
+.card .body{margin-top:12px}
+
+/* ---------- 天气 ---------- */
+.wx{display:flex;align-items:center;gap:12px}
+.wx .ico{font-size:26px;line-height:1}
+.wx .t{font-family:var(--disp);font-size:30px;font-weight:500;line-height:1}
+.wx .sub{font-size:var(--fs-note);color:var(--sub);margin-top:3px;letter-spacing:.04em}
+
+/* ---------- 额度环 ---------- */
+.quota{display:flex;align-items:center;gap:14px}
+.ring{width:64px;height:64px;flex:none}
+.ring .bg{stroke:var(--fill)}
+.ring .fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.22,1,.36,1)}
+.ring text{font-family:var(--disp);font-size:15px;font-weight:600;fill:var(--ink)}
+.quota .fig{font-family:var(--disp);font-size:17px;font-weight:500;white-space:nowrap}
+.quota .figsub{font-size:var(--fs-note);color:var(--sub);margin-top:3px}
+
+/* ---------- 日历 ---------- */
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.cal-head .t{font-family:var(--serif);font-size:15px;font-weight:600;letter-spacing:.06em}
+.cal-nav{display:flex;gap:4px}
+.cal-nav button{
+  width:26px;height:26px;border-radius:var(--r-pill);border:1px solid var(--line);background:none;
+  color:var(--ink2);font-family:var(--disp);font-size:15px;line-height:1;cursor:pointer;
+}
+.cal-nav button:active{background:var(--accent-soft)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);margin-top:10px}
+.cal-grid .wd{text-align:center;font-size:10px;color:var(--sub);letter-spacing:.08em;padding:5px 0}
+.cal-grid .d{text-align:center;font-size:12.5px;color:var(--ink2);padding:7px 0;border-radius:var(--r-pill);font-variant-numeric:tabular-nums}
+.cal-grid .d.today{background:var(--accent);color:#fff;font-weight:600}
+[data-theme="night"] .cal-grid .d.today{box-shadow:0 0 14px rgba(192,143,153,.5)}
+
+/* ---------- 音乐 ---------- */
+.music{display:flex;align-items:center;gap:14px}
+.disc{
+  width:62px;height:62px;border-radius:50%;flex:none;position:relative;
+  background:
+    radial-gradient(circle at 50% 50%,var(--paper) 0 17%,#26221E 17.5% 20%,transparent 20.5%),
+    repeating-radial-gradient(circle at 50% 50%,#2E2A25 0 2px,#24211C 2px 4.5px);
+  box-shadow:0 4px 14px rgba(38,34,30,.28),inset 0 0 0 1px rgba(255,255,255,.08);
+  animation:spin 9s linear infinite;animation-play-state:paused;
+}
+.playing .disc{animation-play-state:running}
+@keyframes spin{to{transform:rotate(360deg)}}
+.m-info{flex:1;min-width:0}
+.m-title{font-family:var(--serif);font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-artist{font-size:var(--fs-note);color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-prog{height:2.5px;border-radius:2px;background:var(--fill);margin-top:10px;overflow:hidden}
+.m-prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:2px}
+.playing .m-prog i{animation:prog 30s linear infinite}
+@keyframes prog{from{width:0}to{width:100%}}
+.play-btn{
+  width:42px;height:42px;border-radius:50%;flex:none;cursor:pointer;
+  border:1px solid var(--glass-line);background:var(--card);color:var(--ink);
+  display:grid;place-items:center;transition:transform .15s;
+}
+.play-btn:active{transform:scale(.92)}
+.play-btn svg{width:15px;height:15px;fill:currentColor}
+.m-info.empty .m-title{color:var(--sub);font-weight:400}
